@@ -29,21 +29,20 @@ ARM32_PREFIX=armv7a-linux-androideabi23
 
 # $1:prefix $2:targets
 build_targets() {
-    mkdir -p $BUILD_DIR/$1
     cmake \
         -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
         -DCMAKE_C_COMPILER="$TOOLCHAIN_BIN/$1-clang" \
         -DCMAKE_CXX_COMPILER="$TOOLCHAIN_BIN/$1-clang++" \
         -H$BASEDIR \
-        -B$BUILD_DIR/$1 \
+        -B$BUILD_DIR \
         -G "Unix Makefiles"
-    cmake --build $BUILD_DIR/$1 --config $BUILD_TYPE --target $2 -j
+    cmake --build $BUILD_DIR --config $BUILD_TYPE --target $2 -j
 }
 
-# $1:prefix $2:targets $3:dst
+# $1:targets $2:dst
 copy_targets() {
-    for t in $2; do
-        cp -f $BUILD_DIR/$1/runnable/$t $3
+    for t in $1; do
+        cp -f $BUILD_DIR/runnable/$t $2
     done
 }
 
